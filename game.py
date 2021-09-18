@@ -14,7 +14,7 @@ class Game:
         tmx_data = pytmx.util_pygame.load_pygame('maps/map1.tmx')
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 5
+        map_layer.zoom = 6.5
 
         # générer le joueur
         player_position = tmx_data.get_object_by_name("player")
@@ -53,7 +53,7 @@ class Game:
         # vérifier la collision
         for sprite in self.group.sprites():
             if sprite.feet.collidelist(self.walls) > -1:
-                sprite.move_back
+                sprite.move_back()
 
 
 

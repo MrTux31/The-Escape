@@ -148,7 +148,7 @@
   <object id="46" type="collision" x="47" y="736" width="64.6667" height="48.3333"/>
   <object id="47" type="collision" x="144.333" y="735.333" width="175.667" height="48.6667"/>
   <object id="48" type="collision" x="223.667" y="671.667" width="96.6667" height="64"/>
-  <object id="49" type="caca" x="319.667" y="768" width="159.667" height="18"/>
+  <object id="49" type="collision" x="319.667" y="768" width="159.667" height="18"/>
   <object id="50" type="collision" x="416.333" y="608.333" width="111.667" height="95.3333"/>
   <object id="51" type="collision" x="320.667" y="672" width="62.3333" height="31.3333"/>
   <object id="52" type="collision" x="480" y="704.333" width="79.6667" height="80"/>

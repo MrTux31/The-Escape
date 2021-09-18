@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
 
         }
 
-        self.feet = pygame.Rect(0, 0, self.rect.width * 0.5, 12)
+        self.feet = pygame.Rect(0, 0, self.rect.width / 2, 12)
         self.old_position = self.position.copy()
         self.speed = 2
 
@@ -34,10 +34,19 @@ class Player(pygame.sprite.Sprite):
 
     # faire les déplacements
 
-    def move_right(self): self.position[0] += self.speed
-    def move_left(self): self.position[0] -= self.speed
-    def move_up(self): self.position[1] -= self.speed
-    def move_down(self): self.position[1] += self.speed
+    def move_right(self):
+        self.position[0] += self.speed
+
+    def move_left(self):
+        self.position[0] -= self.speed
+
+    def move_up(self):
+        self.position[1] -= self.speed
+
+
+    def move_down(self):
+        self.position[1] += self.speed
+
 
     def update(self):
         self.rect.topleft = self.position
