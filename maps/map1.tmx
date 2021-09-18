@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="94">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="95">
  <tileset firstgid="1" source="map1.tsx"/>
  <layer id="1" name="background" width="50" height="50">
   <data encoding="csv">
@@ -123,7 +123,7 @@
   <object id="22" type="collision" x="-0.666667" y="0.333333" width="16.3333" height="128.667"/>
   <object id="23" type="collision" x="16.3333" y="0" width="207.667" height="30.6667"/>
   <object id="24" type="collision" x="175.333" y="31.6667" width="48.3333" height="64"/>
-  <object id="25" type="collision" x="224" y="48.3333" width="95.6667" height="46.3333"/>
+  <object id="25" type="collision" x="224" y="48.3333" width="95.6667" height="47.3333"/>
   <object id="26" type="collision" x="288.333" y="95.6667" width="31" height="64"/>
   <object id="27" type="collision" x="208" y="128.333" width="80" height="30.6667"/>
   <object id="28" type="collision" x="80" y="192.333">
@@ -190,5 +190,6 @@
   <object id="90" type="collision" x="607.667" y="80" width="64.3333" height="79.6667"/>
   <object id="91" type="collision" x="640.667" y="159.667" width="31" height="64.3333"/>
   <object id="92" type="collision" x="704.333" y="128" width="47.3333" height="96.3333"/>
+  <object id="94" type="collision" x="352" y="31.5" width="32" height="48.75"/>
  </objectgroup>
 </map>
