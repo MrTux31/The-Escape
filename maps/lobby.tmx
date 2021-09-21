@@ -113,7 +113,7 @@
   <object id="6" name="player" x="238.667" y="346">
    <point/>
   </object>
-  <object id="7" name="enter_level1_exit" type="enter_level1_exit" x="64.6666" y="144">
+  <object id="7" name="enter_level1_exit" type="enter_level1_exit" x="47.3333" y="110.667">
    <point/>
   </object>
   <object id="8" name="enter_level1" x="41.3333" y="79.3333" width="46" height="24"/>

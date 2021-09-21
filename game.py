@@ -3,6 +3,7 @@ import pytmx
 import pyscroll
 from player import Player
 
+
 class Game:
 
     def __init__(self):
@@ -15,6 +16,8 @@ class Game:
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = 4
+        self.map = 'lobby'
+        self.tmx_data = tmx_data
 
         # générer le joueur
         player_position = tmx_data.get_object_by_name("player")
@@ -29,7 +32,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=2)
+        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=10)
         self.group.add(self.player)
 
         # définir le rect de collision pour entrer dans le level 1
@@ -58,12 +61,15 @@ class Game:
     #/////////////////////////
 
     def switch_map(self):
+        self.group = None
+        self.player = None
 
         # charger la map
         tmx_data = pytmx.util_pygame.load_pygame('maps/map1.tmx')
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 2
+        map_layer.zoom = 6.6
+        map = 'map1'
 
         # stocker les rectangles de collision
         self.walls = []
@@ -73,8 +79,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=2)
-        self.group.add(self.player)
+        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=10)
 
         # définir le rect de collision pour sortir du level 1
         enter_level1 = tmx_data.get_object_by_name("exit_level1")
@@ -82,18 +87,25 @@ class Game:
 
         # récupérer le point de spawn dans le level
         spawn = tmx_data.get_object_by_name('spawn_level1')
-        self.player.position[0] = spawn.x + 20
-        self.player.position[1] = spawn.y
+        self.player = Player(spawn.x - 9, spawn.y)
+        self.group.add(self.player)
+
+
+
 
 
 
     def switch_lobby(self):
+
+        self.group = None
+        self.player = None
 
         # charger la map
         tmx_data = pytmx.util_pygame.load_pygame('maps/lobby.tmx')
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = 4
+        map = 'lobby'
 
         # stocker les rectangles de collision
         self.walls = []
@@ -103,8 +115,8 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=2)
-        self.group.add(self.player)
+        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=10)
+
 
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
@@ -112,25 +124,29 @@ class Game:
 
         # récupérer le point de spawn devant le level
         spawn = tmx_data.get_object_by_name('enter_level1_exit')
-        self.player.position[0] = spawn.x
-        self.player.position[1] = spawn.y + 20
+        self.player = Player(spawn.x, spawn.y)
+        self.group.add(self.player)
 
 
     def update(self):
         self.group.update()
 
         # vérifier entrée dans le level 1
-        if self.player.feet.colliderect(self.enter_level1_rect):
-            self.switch_map()
+        if self.map == 'lobby' and self.player.feet.colliderect(self.enter_level1_rect):
+                self.switch_map()
+                self.map = 'map1'
+
 
         # vérifier sortie level 1
-        if self.player.feet.colliderect(self.enter_level1_rect):
+        if self.map == 'map1' and self.player.feet.colliderect(self.enter_level1_rect):
             self.switch_lobby()
+            self.map = 'lobby'
 
         # vérifier la collision
         for sprite in self.group.sprites():
             if sprite.feet.collidelist(self.walls) > -1:
                 sprite.move_back()
+
 
 
 
@@ -149,6 +165,9 @@ class Game:
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
             pygame.display.flip()
+
+
+
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
