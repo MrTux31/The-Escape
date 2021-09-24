@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+# coding:utf-8
 import pygame
+
 
 class Player(pygame.sprite.Sprite):
     
@@ -10,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.position = [x, y]
         self.images = {
-            'down' : self.get_image(0, 0),
+            'down': self.get_image(0, 0),
             'left': self.get_image(0, 32),
             'right': self.get_image(0, 64),
             'up': self.get_image(0, 96)
@@ -23,14 +26,10 @@ class Player(pygame.sprite.Sprite):
 
     def save_location(self): self.old_position = self.position.copy()
 
-
-
     # changer les animations
-    def change_animations (self, name):
+    def change_animations(self, name):
         self.image = self.images[name]
         self.image.set_colorkey((255, 0, 255))
-
-
 
     # faire les déplacements
 
@@ -43,10 +42,8 @@ class Player(pygame.sprite.Sprite):
     def move_up(self):
         self.position[1] -= self.speed
 
-
     def move_down(self):
         self.position[1] += self.speed
-
 
     def update(self):
         self.rect.topleft = self.position
@@ -58,10 +55,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
 
-
     def get_image(self, x, y):
         image = pygame.Surface([32, 32])
         image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
         return image
-
-
