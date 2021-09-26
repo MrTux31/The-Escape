@@ -24,8 +24,13 @@ class Game:
         self.map = 'lobby'
         self.tmx_data = tmx_data
         self.is_menu_opened = False
-        self.bouton
-        self.bouton_rect
+
+        # générer le bouton de sortie
+        self.bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
+        self.bouton.set_colorkey([179, 0, 100])
+        self.bouton.set_colorkey([255, 0, 255])
+        self.bouton_rect = self.bouton.get_rect()
+        self.bouton_rect.x, self.bouton_rect.y = 300, 300
 
         # générer le joueur
         player_position = tmx_data.get_object_by_name("player")
@@ -155,21 +160,9 @@ class Game:
         while running:
 
             if self.is_menu_opened:
-                # générer le bouton de sortie
-                bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
-                bouton.set_colorkey([179, 0, 100])
-                bouton.set_colorkey([255, 0, 255])
-                bouton_rect = bouton.get_rect()
-
                 # image_bouton_rect = image_bouton.get_rect()
-                self.screen.blit(bouton, (300, 300))
+                self.screen.blit(self.bouton, self.bouton_rect)
                 pygame.display.flip()
-
-                pressed = pygame.mouse.get_pressed()
-                pos = pygame.mouse.get_pos()
-
-
-
             else:
                 self.player.save_location()
                 self.handle_input()
@@ -179,17 +172,17 @@ class Game:
                 pygame.display.flip()
 
             for event in pygame.event.get():
-                if self.map is not 'lobby' and event.type == pygame.KEYDOWN:
+                if self.map != 'lobby' and event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         if self.is_menu_opened:
                             self.is_menu_opened = False
                         else:
                             self.is_menu_opened = True
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        if self.buton_rect.collidepoint(event.pos) and self.is_menu_opened:
-                            self.is_menu_opened = False
-                            self.switch_lobby()
-                            self.map = 'lobby'
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.bouton_rect.collidepoint(event.pos) and self.is_menu_opened:
+                        self.is_menu_opened = False
+                        self.switch_lobby()
+                        self.map = 'lobby'
 
 
                 if event.type == pygame.QUIT:
