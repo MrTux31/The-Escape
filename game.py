@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # coding:utf-8
 import pygame
+from pygame import locals
 import pytmx
 import pyscroll
 from player import Player
@@ -13,14 +14,14 @@ class Game:
 
     def __init__(self):
         # générer la fenêtre du jeu
-        self.screen = pygame.display.set_mode((1080, 810), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((1080, 810), locals.RESIZABLE)
         pygame.display.set_caption("The Escape")
 
         # charger la map
         tmx_data = pytmx.util_pygame.load_pygame('maps/lobby.tmx')
         map_data = pyscroll.data.TiledMapData(tmx_data)
-        map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 4
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
+        self.map_layer.zoom = 4
         self.map = 'lobby'
         self.tmx_data = tmx_data
         self.is_menu_opened = False
@@ -44,7 +45,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=10)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
         self.group.add(self.player)
 
         # définir le rect de collision pour entrer dans le level 1
@@ -78,8 +79,8 @@ class Game:
         # charger la map
         tmx_data = pytmx.util_pygame.load_pygame('maps/map1.tmx')
         map_data = pyscroll.data.TiledMapData(tmx_data)
-        map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 6.6
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
+        self.map_layer.zoom = 6.6
         self.map = 'map1'
 
         # stocker les rectangles de collision
@@ -90,7 +91,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=10)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
 
         # définir le rect de collision pour sortir du level 1
         enter_level1 = tmx_data.get_object_by_name("exit_level1")
@@ -109,8 +110,8 @@ class Game:
         # charger la map
         tmx_data = pytmx.util_pygame.load_pygame('maps/lobby.tmx')
         map_data = pyscroll.data.TiledMapData(tmx_data)
-        map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 4
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
+        self.map_layer.zoom = 4
         self.map = 'lobby'
 
         # stocker les rectangles de collision
@@ -121,7 +122,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=10)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
 
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
@@ -183,6 +184,15 @@ class Game:
                         self.is_menu_opened = False
                         self.switch_lobby()
                         self.map = 'lobby'
+                elif event.type == locals.VIDEORESIZE:
+                    width, height = event.size
+                    if width < 800:
+                        width = 800
+                    if height < 600:
+                        height = 600
+                    self.screen = pygame.display.set_mode((width, height), locals.RESIZABLE)
+                    self.map_layer.set_size(self.screen.get_size())
+                
                 if self.is_menu_opened == True:
                     if pygame.mouse.get_focused():
                         ## Trouve position de la souris
