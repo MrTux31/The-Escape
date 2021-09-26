@@ -183,6 +183,26 @@ class Game:
                         self.is_menu_opened = False
                         self.switch_lobby()
                         self.map = 'lobby'
+                if self.is_menu_opened == True:
+                    if pygame.mouse.get_focused():
+                        ## Trouve position de la souris
+                        x, y = pygame.mouse.get_pos()
+
+                        ## S'il y a collision:
+                        collide = self.bouton_rect.collidepoint(x, y)
+
+                        if collide:
+                            self.bouton = None
+                            self.bouton = pygame.image.load('Sprites/exit_button2.png').convert_alpha()
+                            self.bouton.set_colorkey([255, 0, 255])
+                            pygame.display.flip()
+                            
+
+                        else:
+                            self.bouton = None
+                            self.bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
+                            self.bouton.set_colorkey([255, 0, 255])
+                            pygame.display.flip()
 
 
                 if event.type == pygame.QUIT:
