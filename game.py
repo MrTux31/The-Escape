@@ -24,6 +24,8 @@ class Game:
         self.map = 'lobby'
         self.tmx_data = tmx_data
         self.is_menu_opened = False
+        self.bouton
+        self.bouton_rect
 
         # générer le joueur
         player_position = tmx_data.get_object_by_name("player")
@@ -154,13 +156,20 @@ class Game:
 
             if self.is_menu_opened:
                 # générer le bouton de sortie
-                image_bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
-                image_bouton.set_colorkey([255, 0, 255])
-                image_bouton.set_colorkey([179, 0, 100])
+                bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
+                bouton.set_colorkey([179, 0, 100])
+                bouton.set_colorkey([255, 0, 255])
+                bouton_rect = bouton.get_rect()
 
                 # image_bouton_rect = image_bouton.get_rect()
-                self.screen.blit(image_bouton, (300, 300))
+                self.screen.blit(bouton, (300, 300))
                 pygame.display.flip()
+
+                pressed = pygame.mouse.get_pressed()
+                pos = pygame.mouse.get_pos()
+
+
+
             else:
                 self.player.save_location()
                 self.handle_input()
@@ -170,12 +179,18 @@ class Game:
                 pygame.display.flip()
 
             for event in pygame.event.get():
-                if self.map == 'map1' and event.type == pygame.KEYDOWN:
+                if self.map is not 'lobby' and event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         if self.is_menu_opened:
                             self.is_menu_opened = False
                         else:
                             self.is_menu_opened = True
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if self.buton_rect.collidepoint(event.pos) and self.is_menu_opened:
+                            self.is_menu_opened = False
+                            self.switch_lobby()
+                            self.map = 'lobby'
+
 
                 if event.type == pygame.QUIT:
                     running = False
