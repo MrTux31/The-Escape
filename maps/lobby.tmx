@@ -244,7 +244,7 @@
   <object id="30" type="collision" x="146.5" y="99.5" width="27.5" height="17"/>
   <object id="31" type="collision" x="259.5" y="96.5" width="26" height="17.5"/>
   <object id="32" type="collision" x="368.5" y="95.5" width="28.5" height="16.5"/>
-  <object id="34" name="bubble1" type="bubble1" x="84.1667" y="95.1666" width="26.5" height="29.8333"/>
+  <object id="34" name="bubble1" type="bubble1" x="71.8333" y="95.1666" width="57.5" height="49.5"/>
   <object id="36" name="text_box_test" x="65.3333" y="48.3333" width="62" height="31"/>
  </objectgroup>
 </map>

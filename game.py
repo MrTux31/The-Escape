@@ -27,6 +27,7 @@ class Game:
         self.map = 'lobby'
         self.tmx_data = tmx_data
         self.is_menu_opened = False
+        self.is_pnj1_touched = False
 
         # générer le bouton de sortie
         self.bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
@@ -199,19 +200,16 @@ class Game:
 
                 pygame.display.flip()
 
-                ## Trouve position de la souris
-                x, y = self.player.position
 
-                ## S'il y a collision:
-                collide = self.text_rect.collidepoint(x, y)
 
-                if collide:
-                    self.bubble = None
-                    self.bubble = pygame.image.load('Sprites/exit_button2.png').convert_alpha()
+
+                if self.map == 'lobby' and self.player.rect.colliderect(self.text_rect):
+
+                    self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
                     self.bubble.set_colorkey([255, 0, 255])
-                    pygame.display.flip()
-
-
+                    self.bubble_rect.x, self.bouton_rect.y = 300, 300
+                    pos1 = 300, 300
+                    self.screen.blit(self.bubble, pos1)
 
             for event in pygame.event.get():
                 if self.map != 'lobby' and event.type == pygame.KEYDOWN:
