@@ -5,8 +5,10 @@ from pygame import locals
 import pytmx
 import pyscroll
 from player import Player
+import math
 # from pygame.locals import *
 # import time
+
 pygame.init()
 
 
@@ -31,26 +33,43 @@ class Game:
         self.bouton.set_colorkey([179, 0, 100])
         self.bouton.set_colorkey([255, 0, 255])
         self.bouton_rect = self.bouton.get_rect()
-        self.bouton_rect.x, self.bouton_rect.y = 300, 300
+        self.bouton_rect.x, self.bouton_rect.y = math.ceil(self.screen.get_width() / 2) - 237, math.ceil(self.screen.get_height() / 2) - 65
+
+        # générer la bulle de texte
+        self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
+        self.bubble.set_colorkey([179, 0, 100])
+        self.bubble.set_colorkey([255, 0, 255])
+        self.bubble_rect = self.bubble.get_rect()
+        self.bubble_rect.x, self.bouton_rect.y = 300, 300
+
 
         # générer le joueur
         player_position = tmx_data.get_object_by_name("player")
         self.player = Player(player_position.x, player_position.y)
 
+
+
         # stocker les rectangles de collision
         self.walls = []
+
 
         for obj in tmx_data.objects:
             if obj.type == 'collision':
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
         self.group.add(self.player)
+
 
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
         self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
+
+        self.text = tmx_data.get_object_by_name('bubble1')
+        self.text_rect = pygame.Rect(self.text.x, self.text.y, self.text.width, self.text.height)
+
+
 
     # détecter les entrées clavier
     def handle_input(self):
@@ -91,7 +110,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
 
         # définir le rect de collision pour sortir du level 1
         enter_level1 = tmx_data.get_object_by_name("exit_level1")
@@ -122,7 +141,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
 
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
@@ -152,7 +171,13 @@ class Game:
             if sprite.feet.collidelist(self.walls) > -1:
                 sprite.move_back()
 
+        if self.map == 'lobby' and self.player.feet.colliderect(self.text_rect):
+            self.bubble = pygame.image.load('Sprites/exit_button.png').convert_alpha()
+            self.bubble.set_colorkey([255, 0, 255])
+            pygame.display.flip()
+
     def run(self):
+        self.map_layer.set_size(self.screen.get_size())
 
         clock = pygame.time.Clock()
         # boucle
@@ -169,7 +194,9 @@ class Game:
                 self.handle_input()
                 self.update()
                 self.group.center(self.player.rect)
+
                 self.group.draw(self.screen)
+
                 pygame.display.flip()
 
             for event in pygame.event.get():
@@ -192,7 +219,9 @@ class Game:
                         height = 600
                     self.screen = pygame.display.set_mode((width, height), locals.RESIZABLE)
                     self.map_layer.set_size(self.screen.get_size())
-                
+                    self.bouton_rect.x, self.bouton_rect.y = math.ceil(self.screen.get_width() / 2) - 237, math.ceil(
+                        self.screen.get_height() / 2) - 65
+
                 if self.is_menu_opened == True:
                     if pygame.mouse.get_focused():
                         ## Trouve position de la souris
