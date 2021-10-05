@@ -34,7 +34,8 @@ class Game:
         self.bouton.set_colorkey([179, 0, 100])
         self.bouton.set_colorkey([255, 0, 255])
         self.bouton_rect = self.bouton.get_rect()
-        self.bouton_rect.x, self.bouton_rect.y = math.ceil(self.screen.get_width() / 2) - 237, math.ceil(self.screen.get_height() / 2) - 65
+        self.bouton_rect.x, self.bouton_rect.y = \
+            math.ceil(self.screen.get_width() / 2) - 237, math.ceil(self.screen.get_height() / 2) - 65
 
         # générer la bulle de texte
         self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
@@ -43,16 +44,12 @@ class Game:
         self.bubble_rect = self.bubble.get_rect()
         self.bubble_rect.x, self.bouton_rect.y = 300, 300
 
-
         # générer le joueur
         player_position = tmx_data.get_object_by_name("player")
         self.player = Player(player_position.x, player_position.y)
 
-
-
         # stocker les rectangles de collision
         self.walls = []
-
 
         for obj in tmx_data.objects:
             if obj.type == 'collision':
@@ -62,15 +59,12 @@ class Game:
         self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
         self.group.add(self.player)
 
-
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
         self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
 
         self.text = tmx_data.get_object_by_name('bubble1')
         self.text_rect = pygame.Rect(self.text.x, self.text.y, self.text.width, self.text.height)
-
-
 
     # détecter les entrées clavier
     def handle_input(self):
@@ -200,9 +194,6 @@ class Game:
 
                 pygame.display.flip()
 
-
-
-
                 if self.map == 'lobby' and self.player.rect.colliderect(self.text_rect):
 
                     self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
@@ -234,12 +225,12 @@ class Game:
                     self.bouton_rect.x, self.bouton_rect.y = math.ceil(self.screen.get_width() / 2) - 237, math.ceil(
                         self.screen.get_height() / 2) - 65
 
-                if self.is_menu_opened == True:
+                if self.is_menu_opened:
                     if pygame.mouse.get_focused():
-                        ## Trouve position de la souris
+                        # Trouve position de la souris
                         x, y = pygame.mouse.get_pos()
 
-                        ## S'il y a collision:
+                        # S'il y a collision:
                         collide = self.bouton_rect.collidepoint(x, y)
 
                         if collide:
@@ -247,15 +238,12 @@ class Game:
                             self.bouton = pygame.image.load('Sprites/exit_button2.png').convert_alpha()
                             self.bouton.set_colorkey([255, 0, 255])
                             pygame.display.flip()
-                            
 
                         else:
                             self.bouton = None
                             self.bouton = pygame.image.load('Sprites/exit_button.png').convert_alpha()
                             self.bouton.set_colorkey([255, 0, 255])
                             pygame.display.flip()
-
-
                 if event.type == pygame.QUIT:
                     running = False
 
