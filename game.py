@@ -199,11 +199,19 @@ class Game:
 
                 pygame.display.flip()
 
-                if self.map == 'lobby' and self.player.feet.colliderect(self.text_rect):
-                    self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
+                ## Trouve position de la souris
+                x, y = self.player.position
+
+                ## S'il y a collision:
+                collide = self.text_rect.collidepoint(x, y)
+
+                if collide:
+                    self.bubble = None
+                    self.bubble = pygame.image.load('Sprites/exit_button2.png').convert_alpha()
                     self.bubble.set_colorkey([255, 0, 255])
-                    self.bubble_rect.x, self.bouton_rect.y = 300, 300
                     pygame.display.flip()
+
+
 
             for event in pygame.event.get():
                 if self.map != 'lobby' and event.type == pygame.KEYDOWN:
