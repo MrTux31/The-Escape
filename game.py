@@ -172,7 +172,7 @@ class Game:
                 sprite.move_back()
 
         if self.map == 'lobby' and self.player.feet.colliderect(self.text_rect):
-            self.bubble = pygame.image.load('Sprites/exit_button.png').convert_alpha()
+            self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
             self.bubble.set_colorkey([255, 0, 255])
             pygame.display.flip()
 
@@ -198,6 +198,12 @@ class Game:
                 self.group.draw(self.screen)
 
                 pygame.display.flip()
+
+                if self.map == 'lobby' and self.player.feet.colliderect(self.text_rect):
+                    self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
+                    self.bubble.set_colorkey([255, 0, 255])
+                    self.bubble_rect.x, self.bouton_rect.y = 300, 300
+                    pygame.display.flip()
 
             for event in pygame.event.get():
                 if self.map != 'lobby' and event.type == pygame.KEYDOWN:
