@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="37">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="39">
  <tileset firstgid="1" source="map1.tsx"/>
  <tileset firstgid="721" source="Tile door.tsx"/>
  <tileset firstgid="737" source="letters.tsx"/>
@@ -244,7 +244,6 @@
   <object id="30" type="collision" x="146.5" y="99.5" width="27.5" height="17"/>
   <object id="31" type="collision" x="259.5" y="96.5" width="26" height="17.5"/>
   <object id="32" type="collision" x="368.5" y="95.5" width="28.5" height="16.5"/>
-  <object id="34" name="bubble1" type="bubble1" x="71.8333" y="95.1666" width="57.5" height="49.5"/>
-  <object id="36" name="text_box_test" x="65.3333" y="48.3333" width="62" height="31"/>
+  <object id="37" name="PNJ1" x="85.6364" y="79.8182" width="20.5455" height="29.6364"/>
  </objectgroup>
 </map>

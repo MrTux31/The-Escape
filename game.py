@@ -7,7 +7,6 @@ import pyscroll
 from player import Player
 import math
 # from pygame.locals import *
-# import time
 
 pygame.init()
 
@@ -63,8 +62,9 @@ class Game:
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
         self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
 
-        self.text = tmx_data.get_object_by_name('bubble1')
-        self.text_rect = pygame.Rect(self.text.x, self.text.y, self.text.width, self.text.height)
+        self.pnj1 = tmx_data.get_object_by_name('PNJ1')
+        self.pnj1_rect = pygame.Rect(self.pnj1.x, self.pnj1.y, self.pnj1.width, self.pnj1.height)
+        self.is_pnj1_messagebox_opened = False
 
     # détecter les entrées clavier
     def handle_input(self):
@@ -166,11 +166,6 @@ class Game:
             if sprite.feet.collidelist(self.walls) > -1:
                 sprite.move_back()
 
-        if self.map == 'lobby' and self.player.feet.colliderect(self.text_rect):
-            self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
-            self.bubble.set_colorkey([255, 0, 255])
-            pygame.display.flip()
-
     def run(self):
         self.map_layer.set_size(self.screen.get_size())
 
@@ -184,6 +179,9 @@ class Game:
                 # image_bouton_rect = image_bouton.get_rect()
                 self.screen.blit(self.bouton, self.bouton_rect)
                 pygame.display.flip()
+            elif self.is_pnj1_messagebox_opened:
+                self.screen.blit(self.bubble, self.bubble_rect)
+                pygame.display.flip()
             else:
                 self.player.save_location()
                 self.handle_input()
@@ -192,15 +190,9 @@ class Game:
 
                 self.group.draw(self.screen)
 
+                pygame.draw.rect(self.screen, (0, 255, 255), self.pnj1_rect)
+                pygame.draw.rect(self.screen, (255, 0, 255), self.enter_level1_rect)
                 pygame.display.flip()
-
-                if self.map == 'lobby' and self.player.rect.colliderect(self.text_rect):
-
-                    self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
-                    self.bubble.set_colorkey([255, 0, 255])
-                    self.bubble_rect.x, self.bouton_rect.y = 300, 300
-                    pos1 = 300, 300
-                    self.screen.blit(self.bubble, pos1)
 
             for event in pygame.event.get():
                 if self.map != 'lobby' and event.type == pygame.KEYDOWN:
@@ -214,6 +206,16 @@ class Game:
                         self.is_menu_opened = False
                         self.switch_lobby()
                         self.map = 'lobby'
+                    elif (
+                            self.map == 'lobby'
+                         ) and (
+                            self.pnj1_rect.collidepoint(event.pos)
+                         ) and not (
+                            self.is_pnj1_messagebox_opened
+                         ):
+                        self.is_pnj1_messagebox_opened = True
+                    elif self.map == 'lobby' and self.is_pnj1_messagebox_opened:
+                        self.is_pnj1_messagebox_opened = False
                 elif event.type == locals.VIDEORESIZE:
                     width, height = event.size
                     if width < 800:
