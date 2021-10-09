@@ -207,7 +207,7 @@ class Game:
                         self.switch_lobby()
                         self.map = 'lobby'
                     elif (
-                            self.map == "lobby"
+                            self.map == 'lobby'
                          ) and (
                             self.pnj1_rect.collidepoint(event.pos)
                          ) and not (
