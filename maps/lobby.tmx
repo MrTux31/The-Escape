@@ -237,14 +237,9 @@
   <object id="25" type="collision" x="340.5" y="97.5" width="23" height="12"/>
   <object id="26" type="enter_easteregg" x="52" y="404" width="22" height="11"/>
   <object id="27" type="collision" x="85" y="406.5" width="22" height="20"/>
-  <object id="28" name="pnj1" x="149" y="304.5">
-   <point/>
-  </object>
-  <object id="29" type="collision" x="83.5" y="94.5" width="27" height="18.5"/>
+  <object id="29" name="PNJ1" type="collision" x="83.5" y="94.5" width="27" height="18.5"/>
   <object id="30" type="collision" x="146.5" y="99.5" width="27.5" height="17"/>
   <object id="31" type="collision" x="259.5" y="96.5" width="26" height="17.5"/>
   <object id="32" type="collision" x="368.5" y="95.5" width="28.5" height="16.5"/>
-  <object id="34" name="bubble1" type="bubble1" x="71.8333" y="95.1666" width="57.5" height="49.5"/>
-  <object id="36" name="text_box_test" x="65.3333" y="48.3333" width="62" height="31"/>
  </objectgroup>
 </map>
