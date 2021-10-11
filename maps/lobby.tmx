@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="37">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="39">
  <tileset firstgid="1" source="map1.tsx"/>
  <tileset firstgid="721" source="Tile door.tsx"/>
  <tileset firstgid="737" source="letters.tsx"/>
  <tileset firstgid="993" source="pnj texture.tsx"/>
+ <tileset firstgid="1377" source="pnj.tsx"/>
  <layer id="1" name="background" width="30" height="30">
   <data encoding="csv">
 292,293,294,295,292,295,292,293,294,295,293,294,295,292,293,294,295,292,293,294,295,292,293,293,294,295,292,293,294,295,
 332,813,334,335,332,335,332,333,334,335,333,334,335,332,333,334,335,332,333,334,335,332,333,333,334,335,332,333,334,335,
-372,813,721,722,723,724,372,373,374,375,721,722,723,724,373,374,375,721,722,723,724,372,373,373,721,722,723,724,374,375,
+372,813,721,722,723,724,372,373,1377,375,721,722,723,724,373,374,375,721,722,723,724,372,373,373,721,722,723,724,374,375,
 412,413,725,726,727,728,412,413,414,415,725,726,727,728,413,414,415,725,726,727,728,412,413,413,725,726,727,728,414,415,
 292,293,729,730,731,732,0,293,294,295,729,730,731,732,293,294,295,729,730,731,732,292,293,293,729,730,731,732,294,295,
 332,333,733,734,735,736,0,333,334,335,733,734,735,736,333,334,335,733,734,735,736,332,333,333,733,734,735,736,334,335,
@@ -216,7 +217,7 @@
   <object id="6" name="player" x="238.667" y="346">
    <point/>
   </object>
-  <object id="7" name="enter_level1_exit" type="enter_level1_exit" x="47.3333" y="156.114">
+  <object id="7" name="enter_level1_exit" type="enter_level1_exit" x="142.833" y="186.114">
    <point/>
   </object>
   <object id="8" name="enter_level1" x="41.3333" y="79.3333" width="46" height="24"/>
@@ -244,7 +245,10 @@
   <object id="30" type="collision" x="146.5" y="99.5" width="27.5" height="17"/>
   <object id="31" type="collision" x="259.5" y="96.5" width="26" height="17.5"/>
   <object id="32" type="collision" x="368.5" y="95.5" width="28.5" height="16.5"/>
-  <object id="34" name="bubble1" type="bubble1" x="71.8333" y="95.1666" width="57.5" height="49.5"/>
   <object id="36" name="text_box_test" x="65.3333" y="48.3333" width="62" height="31"/>
+  <object id="37" name="enter_level2" x="172.25" y="95.5" width="44.5" height="12.25"/>
+  <object id="38" name="enter_level2_exit" x="182" y="156">
+   <point/>
+  </object>
  </objectgroup>
 </map>

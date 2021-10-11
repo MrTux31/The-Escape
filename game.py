@@ -63,8 +63,9 @@ class Game:
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
         self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
 
-        self.text = tmx_data.get_object_by_name('bubble1')
-        self.text_rect = pygame.Rect(self.text.x, self.text.y, self.text.width, self.text.height)
+        # définir le rect de collision pour entrer dans le level 2
+        enter_level2 = tmx_data.get_object_by_name('enter_level2')
+        self.enter_level2_rect = pygame.Rect(enter_level2.x, enter_level2.y, enter_level2.width, enter_level2.height)
 
     # détecter les entrées clavier
     def handle_input(self):
@@ -111,10 +112,55 @@ class Game:
         enter_level1 = tmx_data.get_object_by_name("exit_level1")
         self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
 
+        # rect pour afficher la bulle
+        self.text = tmx_data.get_object_by_name('bubble1')
+        self.text_rect = pygame.Rect(self.text.x, self.text.y, self.text.width, self.text.height)
+
         # récupérer le point de spawn dans le level
         spawn = tmx_data.get_object_by_name('spawn_level1')
         self.player = Player(spawn.x - 9, spawn.y)
         self.group.add(self.player)
+
+    def switch_map2(self):
+        self.group = None
+        self.player = None
+
+        # charger la map
+        tmx_data = pytmx.util_pygame.load_pygame('maps/map2.tmx')
+        map_data = pyscroll.data.TiledMapData(tmx_data)
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
+        self.map_layer.zoom = 6.6
+        self.map = 'map2'
+
+        # stocker les rectangles de collision
+        self.walls = []
+
+        for obj in tmx_data.objects:
+            if obj.type == 'collision':
+                self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+
+        # générer les calques
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+
+        # définir le rect de collision pour sortir du level 1
+        enter_level2 = tmx_data.get_object_by_name("exit_level2")
+        self.enter_level2_rect = pygame.Rect(enter_level2.x, enter_level2.y, enter_level2.width, enter_level2.height)
+
+        # rect pour afficher la bulle
+        #self.text = tmx_data.get_object_by_name('bubble1')
+        #self.text_rect = pygame.Rect(self.text.x, self.text.y, self.text.width, self.text.height)
+
+        # récupérer le point de spawn dans le level
+        spawn = tmx_data.get_object_by_name('spawn_level2')
+        self.player = Player(spawn.x - 9, spawn.y)
+        self.group.add(self.player)
+
+
+
+
+
+
+
 
     def switch_lobby(self):
 
@@ -141,9 +187,47 @@ class Game:
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
         self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
+        # définir le rect de collision pour sortir du level 1
+        enter_level2 = tmx_data.get_object_by_name("enter_level2")
+        self.enter_level2_rect = pygame.Rect(enter_level2.x, enter_level2.y, enter_level2.width, enter_level2.height)
 
         # récupérer le point de spawn devant le level
-        spawn = tmx_data.get_object_by_name('enter_level1_exit')
+        spawn = tmx_data.get_object_by_name('player')
+        self.player = Player(spawn.x, spawn.y)
+        self.group.add(self.player)
+        self.player.change_animations('down')
+
+    def switch_lobby2(self):
+
+        self.group = None
+        self.player = None
+
+        # charger la map
+        tmx_data = pytmx.util_pygame.load_pygame('maps/lobby.tmx')
+        map_data = pyscroll.data.TiledMapData(tmx_data)
+        self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
+        self.map_layer.zoom = 4
+        self.map = 'lobby'
+
+        # stocker les rectangles de collision
+        self.walls = []
+
+        for obj in tmx_data.objects:
+            if obj.type == 'collision':
+                self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+
+        # générer les calques
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+
+        # définir le rect de collision pour entrer dans le level 1
+        enter_level1 = tmx_data.get_object_by_name('enter_level1')
+        self.enter_level1_rect = pygame.Rect(enter_level1.x, enter_level1.y, enter_level1.width, enter_level1.height)
+        # définir le rect de collision pour sortir du level 1
+        enter_level2 = tmx_data.get_object_by_name("enter_level2")
+        self.enter_level2_rect = pygame.Rect(enter_level2.x, enter_level2.y, enter_level2.width, enter_level2.height)
+
+        # récupérer le point de spawn devant le level
+        spawn = tmx_data.get_object_by_name('player')
         self.player = Player(spawn.x, spawn.y)
         self.group.add(self.player)
         self.player.change_animations('down')
@@ -161,15 +245,21 @@ class Game:
             self.switch_lobby()
             self.map = 'lobby'
 
+        # vérifier entrée dans le level 2
+        if self.map == 'lobby' and self.player.feet.colliderect(self.enter_level2_rect):
+            self.switch_map2()
+            self.map = 'map2'
+
+        # vérifier sortie level 2
+        if self.map == 'map2' and self.player.feet.colliderect(self.enter_level2_rect):
+            self.switch_lobby2()
+            self.map = 'lobby'
+
         # vérifier la collision
         for sprite in self.group.sprites():
             if sprite.feet.collidelist(self.walls) > -1:
                 sprite.move_back()
 
-        if self.map == 'lobby' and self.player.feet.colliderect(self.text_rect):
-            self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
-            self.bubble.set_colorkey([255, 0, 255])
-            pygame.display.flip()
 
     def run(self):
         self.map_layer.set_size(self.screen.get_size())
@@ -192,15 +282,13 @@ class Game:
 
                 self.group.draw(self.screen)
 
-                pygame.display.flip()
-
-                if self.map == 'lobby' and self.player.rect.colliderect(self.text_rect):
-
-                    self.bubble = pygame.image.load('Sprites/bubble_test.png').convert_alpha()
-                    self.bubble.set_colorkey([255, 0, 255])
-                    self.bubble_rect.x, self.bouton_rect.y = 300, 300
+                # dessiner le message du level 1
+                if self.map == 'map1' and self.player.rect.colliderect(self.text_rect):
                     pos1 = 300, 300
                     self.screen.blit(self.bubble, pos1)
+
+
+                pygame.display.flip()
 
             for event in pygame.event.get():
                 if self.map != 'lobby' and event.type == pygame.KEYDOWN:
