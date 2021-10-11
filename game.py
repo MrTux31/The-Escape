@@ -56,7 +56,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=2)
         self.group.add(self.player)
 
         # définir le rect de collision pour entrer dans le level 1
@@ -106,7 +106,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=2)
 
         # définir le rect de collision pour sortir du level 1
         enter_level1 = tmx_data.get_object_by_name("exit_level1")
@@ -140,7 +140,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=2)
 
         # définir le rect de collision pour sortir du level 1
         enter_level2 = tmx_data.get_object_by_name("exit_level2")
@@ -182,7 +182,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=2)
 
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
@@ -195,7 +195,7 @@ class Game:
         spawn = tmx_data.get_object_by_name('player')
         self.player = Player(spawn.x, spawn.y)
         self.group.add(self.player)
-        self.player.change_animations('down')
+        self.player.change_animations('up')
 
     def switch_lobby2(self):
 
@@ -217,7 +217,7 @@ class Game:
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # générer les calques
-        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=3)
+        self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=2)
 
         # définir le rect de collision pour entrer dans le level 1
         enter_level1 = tmx_data.get_object_by_name('enter_level1')
@@ -284,8 +284,11 @@ class Game:
 
                 # dessiner le message du level 1
                 if self.map == 'map1' and self.player.rect.colliderect(self.text_rect):
-                    pos1 = 300, 300
-                    self.screen.blit(self.bubble, pos1)
+                    self.map_layer.set_size(self.screen.get_size())
+                    self.bubble_rect.x, self.bubble_rect.y = math.ceil(self.screen.get_width() / 2) - 237, math.ceil(
+                        self.screen.get_height() / 2) - 65
+
+                    self.screen.blit(self.bubble, self.bubble_rect)
 
 
                 pygame.display.flip()
