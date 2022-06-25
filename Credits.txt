@@ -1,0 +1,20 @@
+--------The Escape--------
+
+Merci à Onilink, Pititou_gbo et Tétrix31 pour leur aide à la réalisation des maps !
+Un grand merci à Jean Dubois pour son aide importante sur la correction de bugs ! ^_^
+
+Un jeu programmé par MrTux.
+
+Réalisation des maps : 
+MrTux : Map 1
+OniLink : Map 2 
+Pititou_gbo : Map 3
+Tétrix31 : Map 4
+
+Musique originale du jeu : Onilink.
+
+Textures : Nature par Stealthix.
+Player SpriteSheet : https://image.noelshack.com/fichiers/2021/18/4/1620294984-you.png
+Nature Tileset : https://stealthix.itch.io/rpg-nature-tileset
+Skeleton tileset : https://opengameart.org/
+

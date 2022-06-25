@@ -1,5 +1,7 @@
-#!/usr/bin/env python3
+#!/Python39/python.exe
 # coding:utf-8
+#import PYTHONHOME=/Python39/python.exe
+#import PYTHONPATH=/Python39/python.exe
 import pygame
 from game import Game
 from pygame import mixer
